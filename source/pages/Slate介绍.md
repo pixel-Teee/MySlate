@@ -8,6 +8,6 @@ unreal的文档指出slate是虚幻引擎的自定义的UI编程框架。**编�
 
 
 
-![image-20230522113613954](_static/Image/Slate/RuntimeAndEdit.png)
+![](_static/Image/Slate/RuntimeAndEdit.png)
 
 这个文档主要是收集slate的各种资料以及详解slate的方方面面。
