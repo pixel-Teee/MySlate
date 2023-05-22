@@ -8,7 +8,7 @@ Welcome to MySlate's documentation!
 
 .. toctree::
    :maxdepth: 18
-   :caption: 欢迎
+   :caption: 欢迎:
    
    pages/Slate介绍
 
