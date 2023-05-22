@@ -6,6 +6,9 @@
 # -- Project information -----------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
+import os
+import shutil
+
 project = 'MySlate'
 copyright = '2023, TEEE'
 author = 'TEEE'
@@ -19,6 +22,8 @@ templates_path = ['_templates']
 exclude_patterns = []
 
 source_suffix = ['.rst', '.md']
+
+extensions = ['recommonmark']
 
 # -- Options for HTML output -------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output

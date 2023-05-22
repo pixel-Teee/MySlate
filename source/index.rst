@@ -8,9 +8,9 @@ Welcome to MySlate's documentation!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Contents:
+   :caption: 欢迎
    
-   pages/study
+   pages/Slate介绍
 
 Indices and tables
 ==================
