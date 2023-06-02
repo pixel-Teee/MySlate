@@ -33,7 +33,7 @@ TSharedRef<SWindow> FSlateApplication::AddWindow(TSharedRef<SWindow> InSlateWind
 {
     //这个函数会排序，把这个窗口和之前打开过的窗口排个序，保持ZOrder，主要用于鼠标事件的穿透路由，从顶层窗口散播下去
 	FSlateWindowHelper::ArrangeWindowToFront(SlateWindows, InSlateWindow);
-    //创建平台窗口
+    //创建平台窗口，为这个SWindow逻辑窗口创建相应的native window handle
 	TSharedRef<FGenericWindow> NewWindow = MakeWindow( InSlateWindow, bShowImmediately );
     
     //立即创建back buffer，图形API需要传入native window的句柄，创建back buffer
@@ -50,7 +50,22 @@ TSharedRef<SWindow> FSlateApplication::AddWindow(TSharedRef<SWindow> InSlateWind
 
 
 
-持续更新...
+ShowWindow这个函数比较重要，里面为会这个窗口创建相应的backbuffer以及相应的正交透视矩阵：
+
+```c++
+void SWindow::ShowWindow()
+{
+	if(NativeWindow) //判断关联的native window是否已经创建
+	{
+		//这个函数，获取application的渲染器，然后创建视口，创建backbuffer
+		FSlateApplicationBase::Get().GetRenderer()->CreateViewport(SharedThis(this));
+	}
+	
+	//...
+}
+```
+
+
 
 
 
@@ -60,7 +75,7 @@ TSharedRef<SWindow> FSlateApplication::AddWindow(TSharedRef<SWindow> InSlateWind
 
 
 
-然后绘制是第三次递归，总共遍历3次控件树，还有一次是消息事件的路由，总共4次递归，有3次可以合并，绘制，分配几何大小，消息事件的路由可以合并，这些都在OnPaint里面处理。
+然后绘制是第三次递归，总共遍历3次控件树，还有一次是消息事件的路由，总共4次递归，有3次可以合并，绘制，分配几何大小，2D碰撞网格的构建可以合并，这些都在OnPaint里面处理。
 
 
 
