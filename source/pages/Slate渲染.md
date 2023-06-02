@@ -79,6 +79,35 @@ Windows[的消息循环在这里](https://learn.microsoft.com/en-us/windows/win3
 
 
 
+FSlateApplicationBase类持有FSlateRenderer，Slate的渲染器，它同样也有相应的子类，总共3个，FSlateD3DRenderer，FSlateOpenGLRenderer，FSlateRHIRenderer，第一个和第二个是裸着调用图形API的，第三个是封装了图形模块的RHI，这个RHI封装了OpenGL和DirectX和Vulkan等图形API，在不同平台进行切换。Slate可以编写单独的应用，会使用第一个和第二个，如果是正常的流程，则是第三个。
+
+```c++
+void FSlateRHIRenderer::CreateViewport(const TSharedRef<SWindow> Window)
+{
+	FViewportInfo* NewInfo = new FViewportInfo();//创建一个FViewportInfo类
+    
+    //拿到native window handle
+    TSharedRef<FGenericWindow> NativeWindow = Window->GetNativeWindow().ToSharedRef();
+    NewInfo->OSWindow = NativeWindow->GetOSWindowHandle();//获取native window hand
+    NewInfo->Width = Width;
+    NewInfo->Height = Height;
+    NewInfo->DesiredWidth = Width;
+    NewInfo->DesiredHeight = Height;
+    //创建正交投影矩阵，画UI用的
+    NewInfo->ProjectionMatrix = CreateProjectionMatrix(Width, Height);
+    
+    //这个viewport存储了backbuffer，像素格式，交换链
+    NewInfo->ViewportRHI = RHICreateViewport(NewInfo->OSWindow, Width, Height, bFullscreen, NewInfo->PixelFormat);
+    
+    WindowToViewportInfo.Add(&Window.Get(), NewInfo);//加入到渲染器的map里面，SWindow做Key，FViewportInfo做值
+    //后续逐窗口渲染的时候，通过SWindow查找FViewportInfo，然后画到窗口的back buffer上面
+}
+```
+
+
+
+
+
 ## 控件的渲染
 
 控件首先需要自下而上递归，计算一次固定大小(desired size)，然后自上而下递归，计算布局，把整个窗口的几何大小分配给每个控件，为啥要两次递归？因为控件有些指定自动大小的，会进行布局的计算，而不会使用图片的固定大小。
