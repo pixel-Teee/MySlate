@@ -29,7 +29,7 @@ GetBrush则是根据"ToolTip.Background"查找map，拿到FSlateWidgetStyle，�
 
 FSlateWidgetStyle有非常多非常多的子类，基础控件都会派生一个，每个控件风格类都保存了一大堆属性，比如圆角大小，图片大小，颜色等：
 
-![image-20230602110116505](_static/Image/Slate/Style.png)
+![](_static/Image/Slate/Style.png)
 
 **每个模块的Initialize函数，如果是编辑器模块，我们书写的时候，可以为模块用到的控件创建自定义的风格，后续讲解怎么注册和定义自己的风格。**
 
@@ -45,7 +45,7 @@ FSlateWidgetStyle有非常多非常多的子类，基础控件都会派生一个
 
 引擎的内建资源只能通过这种方式进行处理，一行行写下去。
 
-![image-20230602110419822](_static/Image/Slate/StyleSet.png)
+![](_static/Image/Slate/StyleSet.png)
 
 
 
