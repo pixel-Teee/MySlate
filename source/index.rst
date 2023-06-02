@@ -18,6 +18,8 @@ Welcome to MySlate's documentation!
 
    pages/Slate风格
 
+   pages/Slate渲染
+
 Indices and tables
 ==================
 
