@@ -20,6 +20,10 @@ Welcome to MySlate's documentation!
 
    pages/Slate渲染
 
+   pages/SLevelEditor
+
+   pages/Slate控件树的连接
+
 Indices and tables
 ==================
 
