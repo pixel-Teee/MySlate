@@ -12,6 +12,12 @@ Welcome to MySlate's documentation!
    
    pages/Slate介绍
 
+   pages/Slate控件的创建过程和声明式语法
+
+   pages/SWindow以及窗口的创建
+
+   pages/Slate风格
+
 Indices and tables
 ==================
 
