@@ -23,7 +23,9 @@ Slate的嵌套语法在这个DeclarativeSyntaxSupport.h文件里面，这个文�
 
 ![](_static/Image/Slate/DeclarativeSyntaxSupport.png)
 
-# 一些常见的控件
+
+
+## 一些常见的控件
 
 控件有很多很多，还有很多复合控件，控件主要分为布局控件和基础控件。
 
@@ -31,7 +33,7 @@ Slate的嵌套语法在这个DeclarativeSyntaxSupport.h文件里面，这个文�
 
 最简单的控件是SImage，一张图，它没有槽，也就不能持有和挂载其它的控件。
 
-![image-20230601172219119](_static/Image/Slate/SImage.png)
+![](_static/Image/Slate/SImage.png)
 
 首先，看一下这个类的定义，映入眼帘的是一些宏，SLATE_BEGIN_ARGS和SLATE_END_ARGS这两个宏比较重要，这个宏展开后，定义了一个FArguments类。
 
