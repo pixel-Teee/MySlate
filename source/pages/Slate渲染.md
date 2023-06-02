@@ -67,6 +67,16 @@ void SWindow::ShowWindow()
 
 
 
+Application也和SWindow差不多，也有逻辑Application和平台Application，平台Application主要是针对不同平台子类的Application进行派生，比如FWindowsApplication，它从GenericApplication派生，然后FSlateApplicationBase持有GenericApplication的单例。这样做的目的是处理不同平台的消息派发。
+
+
+
+Windows[的消息循环在这里](https://learn.microsoft.com/en-us/windows/win32/winmsg/using-messages-and-message-queues)，这些在FWindowsApplication里面。
+
+
+
+可惜的是，操作系统的鼠标、键盘消息、窗口、图形渲染全是native的，这些都需要进一步封装。
+
 
 
 ## 控件的渲染
@@ -76,6 +86,10 @@ void SWindow::ShowWindow()
 
 
 然后绘制是第三次递归，总共遍历3次控件树，还有一次是消息事件的路由，总共4次递归，有3次可以合并，绘制，分配几何大小，2D碰撞网格的构建可以合并，这些都在OnPaint里面处理。
+
+
+
+
 
 
 
