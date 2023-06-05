@@ -148,7 +148,7 @@ TSharedRef<WidgetType> operator<<=(const typename WidgetType::FArguments& InArgs
 
 
 
-关注过slate的人，会发现，每个控件类除了定义构造函数外，还会顶一个Construct类，参数是FArguments。
+关注过slate的人，会发现，每个控件类除了定义构造函数外，还会定义一个Construct函数，参数是FArguments。
 
 我们看一下Simage：
 
