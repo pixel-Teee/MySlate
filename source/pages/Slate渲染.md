@@ -118,6 +118,12 @@ void FSlateRHIRenderer::CreateViewport(const TSharedRef<SWindow> Window)
 
 
 
+布局的计算是在OnPaint一开头，可以查看**<<布局计算>>**这篇文章。
+
+
+
+
+
 
 
 
