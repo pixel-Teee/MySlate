@@ -94,6 +94,12 @@ Welcome to MySlate's documentation!
 
    pages/插件和工具制作.md
 
+   pages/Slate和UMG.md
+
+   pages/关卡编辑器绘制.md
+
+   pages/Unreal的视口类.md
+
 
 Indices and tables
 ==================
