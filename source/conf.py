@@ -40,3 +40,7 @@ html_context = {
     "last_updated": True,
     "commit": False,
 }
+
+html_js_files = [
+    'js/baidutongji.js'
+]
