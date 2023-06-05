@@ -30,3 +30,9 @@ Indices and tables
 * :ref:`genindex`
 * :ref:`modindex`
 * :ref:`search`
+
+.. _b站视频: https://space.bilibili.com/37411066?spm_id_from=333.1007.0.0
+
+这些内容是我通过用裸Vulkan重新实现了一遍，弄出来的，可以 `b站视频`_ 看看效果。
+
+
