@@ -100,6 +100,7 @@ Welcome to MySlate's documentation!
 
    pages/Unreal的视口类.md
 
+   pages/布局计算.md
 
 Indices and tables
 ==================
