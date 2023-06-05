@@ -42,5 +42,5 @@ html_context = {
 }
 
 html_js_files = [
-    'pages/_static/js/baidutongji.js'
+    'js/baidutongji.js'
 ]
