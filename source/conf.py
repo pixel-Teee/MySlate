@@ -29,7 +29,7 @@ extensions = ['recommonmark']
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
 html_theme = 'sphinx_rtd_theme'
-html_static_path = ['_static']
+html_static_path = ['pages/_static']
 
 language = 'zh_CN'
 
@@ -42,5 +42,5 @@ html_context = {
 }
 
 html_js_files = [
-    'js/baidutongji.js'
+    'pages/_static/js/baidutongji.js'
 ]
