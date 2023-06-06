@@ -106,6 +106,183 @@ void FSlateRHIRenderer::CreateViewport(const TSharedRef<SWindow> Window)
 
 
 
+这里FSlateRHIRenderer把backbuffer抽象成了FViewportRHI，但是另外两个裸着调用图形API的渲染器是直接存了backbuffer的，如果想学RHI，可以对照着这3个类看看。
+
+
+
+FSlateApplication的初始化和渲染器的初始化在FEngineLoop::PreInitPreStartupScreen里面，还有一些基础风格的初始化也在里面。
+
+
+
+```c++
+FSlateApplication::InitHighDPI(bForceEnableHighDPI);//这个dpi会根据操作系统的设置动态改变
+
+FSlateApplication::Create();//初始化平台Application，如果是Windows，则会注册操作系统的消息回调
+
+FSlateApplication::InitializeCoreStyle();
+
+TSharedPtr<FSlateRenderer> SlateRenderer = GUsingNullRHI ?
+FModuleManager::Get().LoadModuleChecked<ISlateNullRendererModule>("SlateNullRenderer").CreateSlateNullRenderer() :
+FModuleManager::Get().GetModuleChecked<ISlateRHIRendererModule>("SlateRHIRenderer").CreateSlateRHIRenderer();
+TSharedRef<FSlateRenderer> SlateRendererSharedRef = SlateRenderer.ToSharedRef();//创建slate渲染器
+
+FSlateApplication& CurrentSlateApp = FSlateApplication::Get();
+CurrentSlateApp.InitializeRenderer(SlateRendererSharedRef);//初始化渲染器
+```
+
+![](_static/Image/Slate/dpi.png)
+
+dpi是这个，主要是如果这个改动了，程序也要通过WIN32的API获取dpi值，然后把所有控件跟着一起缩放。
+
+
+
+FSlateRHIRenderer的Initialize函数会初始化一些成员变量：
+
+```c++
+bool FSlateRHIRenderer::Initialize()
+{
+	LoadUsedTextures();//加载控件用到的画刷，也就是贴图，没用到的，不加载，会创建显存buffer
+
+	RenderingPolicy = MakeShareable(new FSlateRHIRenderingPolicy(SlateFontServices.ToSharedRef(), ResourceManager.ToSharedRef()));//创建渲染策略，这个在FSlateRHIRenderer的DrawWindow函数里面会使用
+
+	ElementBatcher = MakeUnique<FSlateElementBatcher>(RenderingPolicy.ToSharedRef());//合批器，把一些相同图集的控件给合批了的类
+    
+	return true;
+}
+```
+
+
+
+FSlateRHIRenderer持有一个FSlateDrawBuffer，这个是FSlateWindowElementList的数组，每个窗口一个FSlateWindowElementList，每一帧都会生成控件的顶点数据、索引数据，还有其它数据放置在这个FSlateWindowElementList里面，FSlateWindowElementList存了一个FSlateBatchData，FSlateBatchData则是FSlateRenderBatch的数组，每个控件一个FSlateRenderBatch，如果合批器合批了，则可能多个控件合并到一个FSlateRenderBatch。
+
+```c++
+FSlateRnederBatch的成员变量
+    
+FShaderParams ShaderParams;//着色器参数
+
+FSlateVertexArray* SourceVertices;//顶点数组
+
+FSlateIndexArray* SourceIndices;//索引数组
+
+int32_t LayerId;//当前这个控件的层，合批器合批的时候，会判断两个控件的Layer是否一样，一样的话，就合并顶点、索引
+
+ESlateBatchDrawFlag DrawFlags;
+
+ESlateShader ShaderType;
+
+ESlateDrawPrimitive DrawPrimitiveType;
+
+ESlateDrawEffect DrawEffects;
+```
+
+
+
+合批控件的条件非常苛刻，在绘制每一帧前，会合批一下：
+
+
+
+在ElementBatch.cpp的MergeRenderBatches函数里面，会合批控件：
+
+```c++
+//首先根据层从小到大稳定排序
+TArray<TPair<int32, int32>, TInlineAllocator<100, TMemStackAllocator<>>> BatchIndices;
+
+{
+	BatchIndices.AddUninitialized(RenderBatches.Num());
+	
+	for(int32 Index = 0; Index < RenderBatches.Num(); ++Index)
+	{
+		BatchIndices[Index].Key = Index;
+		BatchIndices[Index].Value = RenderBatches[Index].GetLayer();//获取一个FSlateRenderBatch的layer
+	}
+	
+	//稳定排序，根据layer进行排序
+	BatchIndices.StableSort
+	{
+		[](const TPair<int32, int32>& A, const TPair<int32, int32>& B)
+		{
+			return A.Value < B.Value;
+		}
+	}
+}
+
+//从前往后开始合并
+NumBatches = 0;
+NumLayers = 0;
+
+int32 CurLayerId = INDEX_NONE;//当前render batch的layer id
+int32 PrevLayerId = INDEX_NONE;//前面render batch的layer id
+
+FirstRenderBatchIndex = BatchIndices[0].Key;
+
+FSlateRenderBatch* PrevBatch = nullptr;
+//从前往后开始合并
+for(int32 BatchIndex = 0; BatchIndex < BatchIndices.Num(); ++BatchIndex)
+{
+    const TPair<in32, int32>& BatchIndexPair = BatchIndices[BatchIndex];
+    
+    CurLayerId = CurBatch.GetLayer();//获取当前batch的layer
+    
+    if(PrevLayerId != CurLayerId)
+    {
+        ++NumLayers;//当前render batch和前面的不一样，增加NumLayers
+    }
+    
+    if(PrevBatch != nullptr)
+    {
+        PrevBatch->NextBatchIndex = BatchIndexPair.Key;//用链表串起来
+    }
+    
+    ++NumBatches;
+    
+    FillBuffersFromNewBatch(CurBatch, FinalVertexData, FinalIndexData);
+    
+    //开始合并
+    if(CurBatch.bIsMergable)
+    {
+        for(int32 TestIndex = BatchIndex + 1; TestIndex < BatchIndices.Num(); ++TestIndex)
+        {
+            const TPair<int32, int32>& NextBatchIndexPair = BatchIndices[TestIndex];
+            FSlateRenderBatch& TestBatch = RenderBatches[NextBatchIndexPair.Key];
+            if(TestBatch.GetLayer() != CurBatch.GetLayer())
+            {
+                break;
+            }
+            else if(!TestBatch.bIsMerged && CurBatch.IsBatchableWith(TestBatch))
+            {
+                CombineBatches(CurBatch, TestBatch, FinalVertexData, FinalIndexData);//合并batch
+            }
+        }
+    }
+    PrevBatch = &CurBatch;
+}
+```
+
+
+
+```c++
+//class FSlateRenderBatch
+bool IsBatchableWith(const FSlateRenderBatch& Other) const
+{
+	return
+		ShaderResource == Other.ShaderResource
+		&& DrawFlags == Other.DrawFlags
+		&& ShaderType == Other.ShaderType
+		&& DrawPrimitiveType == Other.DrawPrimitiveType
+		&& DrawEffects == Other.DrawEffects
+		&& ShaderParams == Other.ShaderParams
+		&& InstanceData == Other.InstanceData
+		&& InstanceCount == Other.InstanceCount
+		&& InstanceOffset == Other.InstanceOffset
+		&& DynamicOffset == Other.DynamicOffset
+		&& CustomDrawer == Other.CustomDrawer
+		&& SceneIndex == Other.SceneIndex
+		&& ClippingState == Other.ClippingState;
+}
+```
+
+需要满足很多条件，才可以合批，着色器资源也要一样(这个是DirectX的描述符，或者是OpenGL的纹理ID)，层要一样，图元拓扑也要一样。
+
 
 
 ## 控件的渲染
@@ -118,7 +295,15 @@ void FSlateRHIRenderer::CreateViewport(const TSharedRef<SWindow> Window)
 
 
 
-布局的计算是在OnPaint一开头，可以查看**<<布局计算>>**这篇文章。
+布局的计算是在OnPaint一开头，可以查看布局计算这篇文章。
+
+
+
+持续更新。
+
+
+
+
 
 
 
