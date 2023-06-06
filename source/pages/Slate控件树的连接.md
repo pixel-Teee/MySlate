@@ -58,6 +58,49 @@ class SOverlay : public SPanel
 
 
 
+TBasicLayoutWidgetSlot这个模板类，持有一个SWidget的智能指针，可以挂一个SWidget。类图可以在布局计算中查看。
+
+
+
+TPanelChildren是一个类似数组的模板类，针对槽增加了一些比较好用的接口。
+
+
+
+让我们看看UMG里面用的最多的控件SConstraintCanvas：
+
+```c++
+class SConstraintCanvas : public SPanel
+{
+	class FSlot : public TSlotBase<FSlot>
+	{
+	public:
+		TAttribute<FMargin> OffsetAttr;
+		
+		TAttribute<FAnchors> AnchorsAttr;
+		
+		TAttribute<FVector2D> AlignmentAttr;
+		
+		TAttribute<bool> AutoSizeAttr;
+		
+		//TAttribute<float> ZOrderAttr;
+		
+		float ZOrder;
+	};
+	
+	TPanelChildren<FSlot> Children;
+};
+```
+
+
+
+在布局计算这篇文章里面，布局的具体计算是在OnArrange这个虚函数里面，会在这个OnArrange里面根据槽的属性，计算布局，比如根据ZOrder计算出Layer，然后排列好，存放到FArrangedChildren(已经安排好的孩子)里面，FArrangedChildren类可以看看布局计算这篇文章，是个FArrangedWidget的数组，FArrangedWidget由SWidget和FGeometry组成。
+
+
+
+
+
+
+
 
 
 
