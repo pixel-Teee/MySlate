@@ -2,7 +2,9 @@
 
 
 
-这个控件是简单颜色渐变控件。
+这个控件是简单颜色渐变控件。这个控件很常用，比如颜色拾取器使用了这个控件，这种长条都是这么画出来的。
+
+![](_static/Image/Slate/SSimpleGradient_ColorPicker.png)
 
 ![](_static/Image/Slate/SSimpleGradient.png)
 
