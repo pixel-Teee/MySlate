@@ -24,6 +24,8 @@ Welcome to MySlate's documentation!
 
    pages/布局计算.md
 
+   pages/SSimpleGradient.md
+
 Indices and tables
 ==================
 
