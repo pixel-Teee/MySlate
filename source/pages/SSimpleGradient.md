@@ -42,7 +42,7 @@ Orientation决定方向是垂直还是水平的。
 
 首先获取画刷，"ColorPicker.AlphaBackground"，这个是棋盘格贴图，长这样。
 
-![image-20230607220051311](_static/Image/Slate/SSimpleGradient_ChessBoardGrid.png)
+![](_static/Image/Slate/SSimpleGradient_ChessBoardGrid.png)
 
 ![](_static/Image/Slate/SSimpleGradient_Checker.png)
 
