@@ -41,7 +41,7 @@ int32 SBorder::OnPaint( const FPaintArgs& Args, const FGeometry& AllottedGeometr
         //如果指定了流向从右往左，则翻转一下
 		if (bFlipForRightToLeftFlowDirection && GSlateFlowDirection == EFlowDirection::RightToLeft)
 		{
-             //重新计算一下FGeometry，然后构造一个图元OutDrawElements
+             //重新计算一下FGeometry，然后构造一个图元放进OutDrawElements
 			const FGeometry FlippedGeometry = AllottedGeometry.MakeChild(FSlateRenderTransform(FScale2D(-1, 1)));
 			FSlateDrawElement::MakeBox(
 				OutDrawElements,
