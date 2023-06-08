@@ -298,9 +298,9 @@ static AlignmentArrangeResult AlignChild(EFlowDirection InLayoutFlow, float Allo
 
 ComputeDesiredSize的作用就体现在这里，第一次递归计算固定大小，然后如果这个控件指定了填充，那么就不考虑这个固定大小，否则则考虑固定大小。
 
+![](_static/Image/Slate/SCompoundWidget_Illustration.png)
 
-
-
+这里我们的图示使用了左对齐，绿色是父控件，蓝色是子控件，父控件的可分配宽度是40，那么如果指定了左对齐，则会忽略提供的FMargin的Right，使用FMargin的左对齐，以及固定大小。
 
 
 
