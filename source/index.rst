@@ -30,6 +30,8 @@ Welcome to MySlate's documentation!
 
    pages/SCompoundWidget.md
 
+   pages/SBorder.md
+
 Indices and tables
 ==================
 
