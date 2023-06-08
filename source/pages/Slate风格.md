@@ -49,9 +49,25 @@ FSlateWidgetStyle有非常多非常多的子类，基础控件都会派生一个
 
 
 
+我们看一起IMAGE_BRUSH这些宏，这些宏展开后，其实是构造了一个画刷，以及相应的路径：
+
+![](_static/Image/Slate/ImageBrush_Path.png)
+
+SVG是一种图像格式，那种小icon都是用SVG绘制的，是矢量图形。
 
 
 
+RootToContentDir则是在风格初始化的时候，通过SetContentDir设置的：
+
+![](_static/Image/Slate/ImageBrush_ContentDir.png)
+
+![](_static/Image/Slate/SlateStyle_ContentDir.png)
+
+里面有很多很多现成的图片。
+
+
+
+每个模块都可以创建自己的风格类，然后注册画刷进StyleSet。
 
 
 
