@@ -32,6 +32,8 @@ Welcome to MySlate's documentation!
 
    pages/SBorder.md
 
+   pages/SConstraintCanvas.md
+
    pages/颜色空间和混合.md
 
 Others
