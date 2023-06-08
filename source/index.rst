@@ -32,8 +32,9 @@ Welcome to MySlate's documentation!
 
    pages/SBorder.md
 
-其余
+Others
 ==================
+
 
 .. _b站视频: https://space.bilibili.com/37411066?spm_id_from=333.1007.0.0
 
