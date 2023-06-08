@@ -28,6 +28,8 @@ Welcome to MySlate's documentation!
 
    pages/SSimpleGradient.md
 
+   pages/SCompoundWidget.md
+
 Indices and tables
 ==================
 
