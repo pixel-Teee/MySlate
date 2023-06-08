@@ -30,9 +30,19 @@
 
 ![](_static/Image/Slate/SSimpleGradient_OnPaint.png)
 
-
+![](_static/Image/Slate/SSimpleGradient_GradientStop.png)
 
 FSlateDrawElement::MakeGradient会构造一个渐变图元，然后放置在OutDrawElements里面，然后层级+1，GradientStops放置两个颜色。
+
+
+
+这个渐变图元是个box，同时带有FSlateGradientStop数组，渐变的每一段的信息，位置和颜色。
+
+
+
+这个FSlateGradientStop会在ElementBatcher.cpp的AddGradientElement里面，生成RenderBatcher，从前往后遍历这个渐变数组。
+
+
 
 Orientation决定方向是垂直还是水平的。
 
