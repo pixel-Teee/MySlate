@@ -34,6 +34,8 @@ Welcome to MySlate's documentation!
 
    pages/SConstraintCanvas.md
 
+   pages/SListView.md
+
    pages/颜色空间和混合.md
 
 Others
