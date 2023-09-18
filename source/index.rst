@@ -36,6 +36,8 @@ Welcome to MySlate's documentation!
 
    pages/SListView.md
 
+   pages/多窗口悬浮合并系列.md
+
    pages/颜色空间和混合.md
 
 Others
