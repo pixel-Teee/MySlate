@@ -28,6 +28,8 @@ Welcome to MySlate's documentation!
 
    pages/SSimpleGradient.md
 
+   pages/SColorBlock.md
+
    pages/SCompoundWidget.md
 
    pages/SBorder.md
