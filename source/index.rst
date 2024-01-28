@@ -42,6 +42,8 @@ Welcome to MySlate's documentation!
 
    pages/颜色空间和混合.md
 
+   pages/鼠标点击和碰撞网格.md
+
 Others
 ==================
 
