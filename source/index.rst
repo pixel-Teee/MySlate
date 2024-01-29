@@ -47,4 +47,4 @@ Welcome to MySlate's documentation!
 Others
 ==================
 
-Unreal编辑器学习交流QQ群，680585711。
+QQ邮箱：1173769234@qq.com
