@@ -46,6 +46,8 @@ Welcome to MySlate's documentation!
 
    pages/链式调用.md
 
+   pages/裁剪的原理.md
+
 Others
 ==================
 
