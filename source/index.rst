@@ -44,6 +44,8 @@ Welcome to MySlate's documentation!
 
    pages/鼠标点击和碰撞网格.md
 
+   pages/链式调用.md
+
 Others
 ==================
 
