@@ -48,6 +48,8 @@ Welcome to MySlate's documentation!
 
    pages/裁剪的原理.md
 
+   pages/文本控件.md
+
 Others
 ==================
 
