@@ -12,8 +12,8 @@ unreal的文档指出slate是虚幻引擎的自定义的UI编程框架。**编�
 
 这个文档主要是收集slate的各种资料以及详解slate的方方面面。
 
-**[链接1](https://github.com/pixel-Teee/GuGu/tree/main/src/Core/UI)**
+**[一个参考slate实现在android和windows上的自绘GUI](https://github.com/pixel-Teee/GuGu/tree/main/src/Core/UI)**
 
-**[链接1](https://github.com/pixel-Teee/DoDoUI.git)**
+**[一个参考slate实现的自绘GUI](https://github.com/pixel-Teee/DoDoUI.git)**
 
-**[链接1](https://pixeleuphoria.com/blog/index.php/notes-on-docking-splitter-auis/)**
+**[多窗口悬浮合并实现](https://pixeleuphoria.com/blog/index.php/notes-on-docking-splitter-auis/)**
