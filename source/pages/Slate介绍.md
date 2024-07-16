@@ -11,3 +11,9 @@ unreal的文档指出slate是虚幻引擎的自定义的UI编程框架。**编�
 ![](_static/Image/Slate/RuntimeAndEdit.png)
 
 这个文档主要是收集slate的各种资料以及详解slate的方方面面。
+
+![](https://github.com/pixel-Teee/GuGu/tree/main/src/Core/UI)
+
+![](https://github.com/pixel-Teee/DoDoUI.git)
+
+![](https://pixeleuphoria.com/blog/index.php/notes-on-docking-splitter-auis/)
