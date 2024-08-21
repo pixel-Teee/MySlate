@@ -50,6 +50,8 @@ Welcome to MySlate's documentation!
 
    pages/文本控件.md
 
+   pages/SVG.md
+
 Others
 ==================
 
